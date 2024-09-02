@@ -7,6 +7,7 @@ import { GeistSans } from "geist/font/sans";
 import { ThemeProvider } from "next-themes";
 import Link from "next/link";
 import "./globals.css";
+import React from "react";
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -19,8 +20,10 @@ export const metadata = {
 };
 
 export default function RootLayout({
+  auth,
   children,
 }: {
+  auth: React.ReactNode;
   children: React.ReactNode;
 }) {
   return (
@@ -36,6 +39,7 @@ export default function RootLayout({
               </nav>
               <div className="flex flex-col gap-20 p-5 w-full">
                 {children}
+                {auth}
               </div>
 
               <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8">
