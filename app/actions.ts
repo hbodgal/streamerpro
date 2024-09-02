@@ -19,7 +19,7 @@ export const signUpAction = async (formData: FormData) => {
     email,
     password,
     options: {
-      emailRedirectTo: `${origin}/auth/callback`,
+      emailRedirectTo: `${origin}/`,
     },
   });
 
@@ -29,7 +29,7 @@ export const signUpAction = async (formData: FormData) => {
   } else {
     return encodedRedirect(
       "success",
-      "/sign-up",
+      "/",
       "Thanks for signing up! Please check your email for a verification link.",
     );
   }
@@ -39,6 +39,7 @@ export const signInAction = async (formData: FormData) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
   const supabase = createClient();
+  const origin = headers().get("origin");
 
   const { error } = await supabase.auth.signInWithPassword({
     email,
@@ -49,12 +50,13 @@ export const signInAction = async (formData: FormData) => {
     return encodedRedirect("error", "/sign-in", error.message);
   }
 
-  return redirect("/");
+  return redirect(`${origin}`);
 };
 
 export const googleSignInAction = async () => {
 
   const supabase = createClient();
+  const origin = headers().get("origin");
 
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: 'google',
@@ -63,7 +65,7 @@ export const googleSignInAction = async () => {
       access_type: 'offline',
       prompt: 'consent',
     },
-      redirectTo: 'http://localhosr:3000/auth/callback',
+      redirectTo: `${origin}`,
     },
   })
   

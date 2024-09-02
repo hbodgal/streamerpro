@@ -12,7 +12,7 @@ export default function Login({ searchParams }: { searchParams: Message }) {
       <form className="flex-1 flex flex-col min-w-64">
       <h1 className="text-2xl font-medium">Sign in</h1>
       <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
-      <Button formAction={googleSignInAction} className="bg-white text-black border border-black p-4 hover:bg-black hover:text-white">Continue with Google Account</Button>
+      <Button type="button" formAction={googleSignInAction} className="bg-white text-black border border-black p-4 hover:bg-black hover:text-white">Continue with Google Account</Button>
       <p className="text-sm text-foreground text-center">OR</p>
         <Label htmlFor="email">Email</Label>
         <Input name="email" placeholder="you@example.com" required />
@@ -31,7 +31,7 @@ export default function Login({ searchParams }: { searchParams: Message }) {
           placeholder="Your password"
           required
         />
-        <SubmitButton pendingText="Signing In..." formAction={signInAction}>
+        <SubmitButton type="submit" pendingText="Signing In..." formAction={signInAction}>
           Sign in
         </SubmitButton>
         <FormMessage message={searchParams} />
