@@ -9,7 +9,6 @@ export default async function AuthButton() {
   const {
     data: { user },
   } = await createClient().auth.getUser();
-  console.log(user);
 
   if (!hasEnvVars) {
     return (

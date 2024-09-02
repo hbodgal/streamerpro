@@ -6,12 +6,14 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const signUpAction = async (formData: FormData) => {
+  const firstname = formData.get("firstname")?.toString();
+  const lastname = formData.get("lastname")?.toString();
   const email = formData.get("email")?.toString();
   const password = formData.get("password")?.toString();
   const supabase = createClient();
   const origin = headers().get("origin");
 
-  if (!email || !password) {
+  if (!email || !password || !firstname || !lastname) {
     return { error: "Email and password are required" };
   }
 
@@ -19,7 +21,11 @@ export const signUpAction = async (formData: FormData) => {
     email,
     password,
     options: {
-      emailRedirectTo: `${origin}/`,
+      data: {
+        full_name: `${firstname + " " + lastname}`,
+        email: formData.get("email") as string
+      },
+      emailRedirectTo: `${origin}/auth/callback`,
     },
   });
 
@@ -65,7 +71,7 @@ export const googleSignInAction = async () => {
       access_type: 'offline',
       prompt: 'consent',
     },
-      redirectTo: `${origin}`,
+      redirectTo: `${origin}/auth/callback`,
     },
   })
   
@@ -147,6 +153,7 @@ export const resetPasswordAction = async (formData: FormData) => {
 
 export const signOutAction = async () => {
   const supabase = createClient();
+  const origin = headers().get("origin");
   await supabase.auth.signOut();
   return redirect("/");
 };

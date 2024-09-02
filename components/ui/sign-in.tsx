@@ -4,7 +4,8 @@ import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
+import SignInWithGoogleButton from "@/components/ui/signInWithGoogle"
 export default function Login({ searchParams }: { searchParams: Message }) {
 
   return (
@@ -12,7 +13,7 @@ export default function Login({ searchParams }: { searchParams: Message }) {
       <form className="flex-1 flex flex-col min-w-64" action={signInAction}>
       <h1 className="text-2xl font-medium">Sign in</h1>
       <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
-      <Button formAction={googleSignInAction} className="bg-white text-black border border-black p-4 hover:bg-black hover:text-white">Continue with Google Account</Button>
+      <SignInWithGoogleButton />
       <p className="text-sm text-foreground text-center">OR</p>
         <Label htmlFor="email">Email</Label>
         <Input name="email" placeholder="you@example.com" required />

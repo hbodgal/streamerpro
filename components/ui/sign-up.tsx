@@ -6,7 +6,8 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 // import { SmtpMessage } from "../smtp-message";
 import Modal from "@/components/Modal";
-import { Button } from "@/components/ui/button";
+// import { Button } from "@/components/ui/button";
+import SignInWithGoogleButton from "@/components/ui/signInWithGoogle";
 
 export default function Signup({ searchParams }: { searchParams: Message }) {
   if ("message" in searchParams) {
@@ -20,11 +21,16 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
   return (
     <Modal>
       <div className="auth-container">
-      <form action={signUpAction}  className="flex-1 flex flex-col min-w-64">
+      <form action={signUpAction} className="flex-1 flex flex-col min-w-64">
         <h1 className="text-2xl font-medium">Sign up</h1>
         <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
-        <Button formAction={googleSignInAction} className="bg-white text-black border border-black p-4 hover:bg-black hover:text-white">Continue with Google Account</Button>
+        <SignInWithGoogleButton />
         <p className="text-sm text-foreground text-center">OR</p>
+
+        <Label htmlFor="firstname">First Name</Label>
+        <Input name="firstname" placeholder="firstname" required />
+        <Label htmlFor="lastname">Last Name</Label>
+        <Input name="lastname" placeholder="lastname" required />
           <Label htmlFor="email">Email</Label>
           <Input name="email" placeholder="you@example.com" required />
           <Label htmlFor="password">Password</Label>
