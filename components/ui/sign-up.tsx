@@ -1,4 +1,4 @@
-import { googleSignInAction, signUpAction } from "@/app/actions";
+import { googleSignInAction, signUpAction } from "@/lib/authActions";
 import { FormMessage, Message } from "@/components/form-message";
 import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
