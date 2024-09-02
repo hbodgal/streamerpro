@@ -20,7 +20,7 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
   return (
     <Modal>
       <div className="auth-container">
-      <form className="flex-1 flex flex-col min-w-64">
+      <form action={signUpAction}  className="flex-1 flex flex-col min-w-64">
         <h1 className="text-2xl font-medium">Sign up</h1>
         <div className="flex flex-col gap-2 [&>input]:mb-3 mt-8">
         <Button formAction={googleSignInAction} className="bg-white text-black border border-black p-4 hover:bg-black hover:text-white">Continue with Google Account</Button>
@@ -35,7 +35,7 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
             minLength={6}
             required
           />
-          <SubmitButton formAction={signUpAction} pendingText="Signing up...">
+          <SubmitButton type="submit" pendingText="Signing up...">
             Sign up
           </SubmitButton>
           <FormMessage message={searchParams} />
