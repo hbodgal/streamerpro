@@ -25,14 +25,13 @@ export default function FetchStreams({ activeStreams }: {
             filter: 'is_streaming=eq.true'
         },
             payload => {
-                // console.log(payload);
                 setLiveSteams(prevStreams => [...prevStreams, payload.new as stream])
         })
         .subscribe();
         return () => {
             supabase.removeChannel(channel);
         };
-    }, []);
+    }, [activeStreams, liveStreams, setLiveSteams ]);
 
     return (
         <>
@@ -53,9 +52,3 @@ export default function FetchStreams({ activeStreams }: {
         </>
     )
 }
-
-
-// //               {/* <div>
-// <h2 className="text-lg font-bold">{stream.title}</h2>
-// <p className="text-sm text-gray-600">{stream.description}</p>
-// </div> */}

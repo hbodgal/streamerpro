@@ -20,10 +20,6 @@ export default async function StreamVideo({ params }: {params: {
         const { data } = await supabase
         .from("streams")
         .select().match({id: streamId}).single();
-        //   console.log(stream);
-        // if(!data) {
-        //   notFound();
-        // }
         return (
             <>
                 <FetchPost activeStream={data} />

@@ -25,9 +25,7 @@ export default function ProductDetailsLayout ({
             {chatbox}
             </div>
             </Suspense>
-        </div>
-
-            {/* <footer>Footer with childeren name</footer> */}
+            </div>
         </div>
     )
 }
