@@ -17,20 +17,22 @@ export default function FetchStreams({ activeStreams }: {
     const supabase = createClient();
     const [liveStreams, setLiveSteams] = useState<stream[]>(activeStreams);
     useEffect(() => {
-        const channel = supabase
-        .channel('realtime-streams')
+        const channel = supabase.channel('realtime-streams')
         .on('postgres_changes', {
             event: 'INSERT',
             schema:'public',
-            table: 'streams'
+            table: 'streams',
+            filter: 'is_streaming=eq.true'
         },
             payload => {
+                // console.log(payload);
                 setLiveSteams(prevStreams => [...prevStreams, payload.new as stream])
-        }).subscribe();
+        })
+        .subscribe();
         return () => {
             supabase.removeChannel(channel);
         };
-    }, [supabase, liveStreams, setLiveSteams]);
+    }, []);
 
     return (
         <>
@@ -44,7 +46,7 @@ export default function FetchStreams({ activeStreams }: {
               legacyBehavior
               className="block p-4 border rounded-lg shadow hover:bg-gray-100">
                 <div className="cursor-pointer">
-                <VideoComponent url={stream.video_url} />
+                <VideoComponent />
                 </div>
               </Link>
             ))}

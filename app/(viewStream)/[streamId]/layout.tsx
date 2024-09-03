@@ -1,19 +1,19 @@
 import { Suspense } from "react";
 
 export default function ProductDetailsLayout ({
-    children,
+    // children,
     streamVideo,
     chatbox
 
 }: {
-    children: React.ReactNode,
+    // children: React.ReactNode,
     streamVideo: React.ReactNode,
     chatbox: React.ReactNode,
 
 }) {
     return (
         <div>
-            { children }
+            {/* { children } */}
             <div className="flex flex-row items-stretch">
             <Suspense fallback={<div>Loading video...</div>}>
                 <div className="flex-[4] bg-gray-200 p-4">
