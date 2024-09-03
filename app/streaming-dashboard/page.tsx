@@ -7,4 +7,6 @@ export default function streamDashboard({ params }: {params: {
     //     notFound();
     // }
     return <h1>Stream {params.streamId}</h1>
+
+    // button which activates streaming for the user.
 }
