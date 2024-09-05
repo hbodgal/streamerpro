@@ -21,7 +21,7 @@ export default function FetchMessages({ activeStreamId, latestMessages }: {
     const supabase = createClient();
     const [messages, setLiveMessages] = useState<message[]>(latestMessages);
     const [senderMessage, setSenderMessage] = useState('');
-    const handleMessageSendingEvent = async (e) => {
+    const handleMessageSendingEvent = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         const user = await checkAuthenticationAction();
         const supabase = createClient();
