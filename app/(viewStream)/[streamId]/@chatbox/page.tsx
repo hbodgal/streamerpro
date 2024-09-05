@@ -1,15 +1,27 @@
+import { createClient } from "@/utils/supabase/client";
+import FetchMessages from "./fetch-messages";
+import { notFound } from "next/navigation";
+
 // This file contains code for Chatbox.
-export default function ChatBox() {
-    return (
-    // <Card>ChatBox</Card>
-    <div className="max-w-3xl mx-auto md:py-10 h-full items-stretch">
-        <div className="h-full border-rounded-md">
-            <div className="h-20">
-            <div className="p-5 border-b flex items-center justify-between">
-                <h1 className="text-xl font-bild">Chat</h1>
+export default async function ChatBox({ params }: { params: { streamId: string } }) {
+    const streamId = params.streamId;
+    const supabase = createClient();
+    const { data, error } = await supabase
+        .from("messages")
+        .select().match({ stream_id: streamId });
+    if (error) {
+        notFound();
+    }
+        return (
+            <div className="max-w-3xl mx-auto h-full">
+                <div className="border-rounded-md">
+                    <div className="h-10">
+                        <div className="p-2 border-b flex items-center justify-between">
+                            <h1 className="text-xl">Chat</h1>
+                        </div>
+                    </div>
+                    <FetchMessages activeStreamId={streamId} latestMessages={data ?? []} />
+                </div>
             </div>
-            </div>
-        </div>
-    </div>
-)
-}
+        )
+    }
