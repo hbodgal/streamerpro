@@ -111,9 +111,10 @@ export async function notifySubscribersOnStreamActivation() {
             console.log(error);
             return false; 
         }
-        console.log(data);
         const subscribersList = data.map(item => item.profiles.email);
-        sendEmails(userId, subscribersList);   
+        if (subscribersList.length > 0) {
+            sendEmails(userId, subscribersList);   
+        }
     }
 }
 
@@ -122,17 +123,16 @@ export async function sendEmails(streamId: string, subscribersList: string[]) {
 
         const ChannelName = await getChannelName(streamId);
         const { data, error } = await resend.emails.send({
-        from: 'noreply@streamerpro.com',
+        from: 'Vercel <vercel@resend.dev>',
         to: subscribersList,
         subject: `${ChannelName} is Live`,
-        text: `The stream with ID ${ChannelName} has been activated. Check it out!`,
+        text: `${ChannelName} in live on Streamer Pro. Check it out!`,
     });
 
     if (error) {
         console.error('Error sending email to the subscribers.', error);
         return;
     }
-    console.log('Email sent successfully to the subscribers');
 }
 
 // Server Action called to get name of the Channel based on ID
