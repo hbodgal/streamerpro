@@ -6,7 +6,6 @@ const Card = ({ children}: { children: React.ReactNode }) => {
         justifyContent: "center",
         alignItems: "center",
         margin: "10px",
-        height: "70vh"
     }
 
     return <div style={cardStyle}>{children}</div>

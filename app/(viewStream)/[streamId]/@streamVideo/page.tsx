@@ -1,29 +1,33 @@
-import { createClient } from "@/utils/supabase/server";
-import FetchPost from "./fetch-stream";
-import { notFound } from "next/navigation";
-type stream = {
-    id: string;
-    created_at: string;
-    is_streaming: boolean;
-    video_url: string;
-}
-export const revalidate = 0;
+// This file contains FetchStream, FollowStream components that are responsible for rendering of live Video and Following Button to follow the channel.
 
+import { createClient } from "@/utils/supabase/server";
+import FetchStream from "./fetch-stream";
+import { notFound } from "next/navigation";
+import FollowStream from "./follow-stream";
+
+export const revalidate = 0;
 export default async function StreamVideo({ params }: {params: {
     streamId: string;
 }}) {
+    
     const streamId = params.streamId;
-    console.log('streamId:',streamId);
-
     if(streamId) {
         const supabase = createClient();
-        const { data } = await supabase
+        const { data, error } = await supabase
         .from("streams")
-        .select().match({id: streamId}).single();
+            .select().match({ user_id: streamId }).single();
+        if (error) {
+            notFound();
+        }
         return (
-            <>
-                <FetchPost activeStream={data} />
-            </>
+            <div>
+                <div>
+                    <FetchStream activeStream={data} />
+                </div>
+                <div className="mt-3">
+                    <FollowStream streamId={streamId} />
+                </div>
+            </div>
           );
     }
 }

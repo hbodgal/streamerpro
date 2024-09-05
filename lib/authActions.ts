@@ -1,3 +1,4 @@
+// This file contains code of Authentication Actions to perform Server Side on demand.
 "use server";
 
 import { encodedRedirect } from "@/utils/utils";
@@ -5,6 +6,7 @@ import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
+// Server Action called on Signup
 export const signUpAction = async (formData: FormData) => {
   const firstname = formData.get("firstname")?.toString();
   const lastname = formData.get("lastname")?.toString();
@@ -41,6 +43,7 @@ export const signUpAction = async (formData: FormData) => {
   }
 };
 
+// Server Action called on SignIn using Form
 export const signInAction = async (formData: FormData) => {
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
@@ -59,6 +62,7 @@ export const signInAction = async (formData: FormData) => {
   return redirect(`${origin}`);
 };
 
+// Server Action called on Google SignIn
 export const googleSignInAction = async () => {
 
   const supabase = createClient();
@@ -76,84 +80,39 @@ export const googleSignInAction = async () => {
   })
   
   if (data.url) {
-    redirect(data.url) // use the redirect API for your server framework
+    redirect(data.url)
   }
 };
 
-export const forgotPasswordAction = async (formData: FormData) => {
-  const email = formData.get("email")?.toString();
-  const supabase = createClient();
-  const origin = headers().get("origin");
-  const callbackUrl = formData.get("callbackUrl")?.toString();
-
-  if (!email) {
-    return encodedRedirect("error", "/forgot-password", "Email is required");
-  }
-
-  const { error } = await supabase.auth.resetPasswordForEmail(email, {
-    redirectTo: `${origin}/auth/callback?redirect_to=/protected/reset-password`,
-  });
-
-  if (error) {
-    console.error(error.message);
-    return encodedRedirect(
-      "error",
-      "/forgot-password",
-      "Could not reset password",
-    );
-  }
-
-  if (callbackUrl) {
-    return redirect(callbackUrl);
-  }
-
-  return encodedRedirect(
-    "success",
-    "/forgot-password",
-    "Check your email for a link to reset your password.",
-  );
-};
-
-export const resetPasswordAction = async (formData: FormData) => {
-  const supabase = createClient();
-
-  const password = formData.get("password") as string;
-  const confirmPassword = formData.get("confirmPassword") as string;
-
-  if (!password || !confirmPassword) {
-    encodedRedirect(
-      "error",
-      "/protected/reset-password",
-      "Password and confirm password are required",
-    );
-  }
-
-  if (password !== confirmPassword) {
-    encodedRedirect(
-      "error",
-      "/protected/reset-password",
-      "Passwords do not match",
-    );
-  }
-
-  const { error } = await supabase.auth.updateUser({
-    password: password,
-  });
-
-  if (error) {
-    encodedRedirect(
-      "error",
-      "/protected/reset-password",
-      "Password update failed",
-    );
-  }
-
-  encodedRedirect("success", "/protected/reset-password", "Password updated");
-};
-
+// Server Action called on Sign Out
 export const signOutAction = async () => {
   const supabase = createClient();
   const origin = headers().get("origin");
   await supabase.auth.signOut();
   return redirect("/");
 };
+
+// Server Action called to Check if user is still Authenticated
+export const checkAuthenticationAction = async () => {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+      return redirect("/sign-in");
+  }
+  return data;
+}
+
+// Server Action called to get User Details
+export const getUserAction = async () => {
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.getUser();
+  if (error) {
+    return;
+  }
+  return data;
+}
+
+// Server Action called to redirect user to home from anywhare
+export const redirectUserToHomeAction = async () => {
+  return redirect("/");
+}

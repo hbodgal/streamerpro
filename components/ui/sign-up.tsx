@@ -4,9 +4,7 @@ import { SubmitButton } from "@/components/submit-button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Link from "next/link";
-// import { SmtpMessage } from "../smtp-message";
 import Modal from "@/components/Modal";
-// import { Button } from "@/components/ui/button";
 import SignInWithGoogleButton from "@/components/ui/signInWithGoogle";
 
 export default function Signup({ searchParams }: { searchParams: Message }) {
@@ -53,7 +51,6 @@ export default function Signup({ searchParams }: { searchParams: Message }) {
           </Link>
         </p>
       </form>
-      {/* <SmtpMessage /> */}
     </div>
     </Modal>
   );

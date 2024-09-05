@@ -9,8 +9,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
-  description: "The fastest way to build apps with Next.js and Supabase",
+  title: "Streamer Pro",
+  description: "Stream your videos and chat with your audience live!",
 };
 
 export default function RootLayout({
@@ -25,17 +25,18 @@ export default function RootLayout({
       <body className="bg-background text-foreground">
           <main className="min-h-screen flex flex-col items-center">
             <div className="flex-1 w-full flex flex-col items-center">
-              <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
+            <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
+              <div className="w-full flex justify-start items-center p-3 px-5 text-sm">
+                <h1 className="font-bold text-2xl">Streamer Pro</h1>
+              </div>
                 <div className="w-full flex justify-end items-center p-3 px-5 text-sm">
                     <HeaderAuth />
                 </div>
-
               </nav>
-              <div className="flex flex-col gap-20 p-5 w-full">
+              <div className="flex flex-col gap-20 p-5 w-full h-[90vh]">
                 {children}
                 {auth}
               </div>
-
               <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8">
               </footer>
             </div>
