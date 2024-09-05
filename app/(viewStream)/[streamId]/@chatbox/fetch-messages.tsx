@@ -37,9 +37,7 @@ export default function FetchMessages({ activeStreamId, latestMessages }: {
         }
         setSenderMessage('');
     }
-    // Subscribes to the realtime update on Active Streams
-    // checks stream is Active and valid
-    // If streamer turns stream off, this subscription redirects user back home
+    // Subscribes to the realtime update on Messages
     useEffect(() => {
         const channel = supabase.channel('realtime-messages')
         .on('postgres_changes', {
@@ -59,18 +57,28 @@ export default function FetchMessages({ activeStreamId, latestMessages }: {
     }, [activeStreamId, supabase]);
     return (
         <>
-            <div>
-            {messages.map(msg => (
-                <p key={msg.id}>{msg.sender_id.split('-')[3]}: {msg.message}</p>
-            ))}
+        <div className="h-full flex flex-col">
+            <div className=" text-black text-xl p-4">
+                Chat
+            </div>
+            <div className="flex-1 overflow-y-auto mt-4 mb-4 p-4">
+                <div>
+                    {messages.map(msg => (
+                        <p key={msg.id}>{msg.sender_id.split('-')[3]}: {msg.message}</p>
+                    ))}
+                </div>
             </div>
             <div>
-            <form className="flex flex-row">
-                <Input value={senderMessage} onChange={(e) => setSenderMessage(e.target.value)} />
-                <Button className="ml-2" type="submit" onClick={handleMessageSendingEvent}>Send</Button>
-            </form>
+                <form className="flex flex-row">
+                    <Input type="text" value={senderMessage} 
+                        onChange={(e) => setSenderMessage(e.target.value)}
+                        placeholder="Type a message"
+                    />
+                    <Button type="submit" onClick={handleMessageSendingEvent}
+                        className="ml-2">Send</Button>
+                </form>
             </div>
-
+        </div>
         </>
     )
 }
