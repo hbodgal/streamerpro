@@ -41,11 +41,10 @@ export async function checkFollowStatus(userId: string, streamId: string) {
         .from("subscriptions")
         .select().match({ user_id: userId, subscription_id: streamId }).single();
     if (error) {
-        console.log(error);
+        // console.log('checkFollowStatus', error);
         return false; 
     }
     return true;
-
 }
 
 // Server Action called to check Streaming status on load
@@ -57,6 +56,9 @@ export async function getStreamingStatusAction() {
         const { data, error } = await supabase
             .from("streams")
             .select().eq('user_id', userId);
+        if (error) {
+            console.log('getStreamingStatusAction', error);
+        }
         if (data && data.length > 0) {
             return true;
         }
@@ -76,7 +78,7 @@ export async function UpdateUserStreamingStatusAction(isStreaming: boolean) {
                 .from('streams')
                 .insert({ user_id: userId, is_streaming: true });
             if (error) {
-                console.log(error);
+                console.log('UpdateUserStreamingStatusAction', error);
                 return false;
             } else {
                 notifySubscribersOnStreamActivation();
@@ -108,7 +110,7 @@ export async function notifySubscribersOnStreamActivation() {
             .from("subscriptions")
             .select(`*, profiles(email)`).match({ subscription_id: userId });
         if (error) {
-            console.log(error);
+            console.log('notifySubscribersOnStreamActivation', error);
             return false; 
         }
         const subscribersList = data.map(item => item.profiles.email);
@@ -142,7 +144,7 @@ export async function getChannelName(streamId: string) {
         .from("profiles")
         .select().match({ id: streamId }).single();
     if (error) {
-        console.log(error);
+        console.log('getChannelName',error);
         return false; 
     }
     return data.full_name;
