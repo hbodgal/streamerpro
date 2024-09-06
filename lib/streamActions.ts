@@ -125,7 +125,7 @@ export async function sendEmails(streamId: string, subscribersList: string[]) {
 
         const ChannelName = await getChannelName(streamId);
         const { data, error } = await resend.emails.send({
-        from: 'Vercel <vercel@resend.dev>',
+        from: 'Streamer Pro <team@harshbodgal.dev>',
         to: subscribersList,
         subject: `${ChannelName} is Live`,
         text: `${ChannelName} in live on Streamer Pro. Check it out!`,
