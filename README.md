@@ -46,17 +46,9 @@
 
 - [Streamer Pro Website](https://streamerpro.vercel.app/)
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Contributing
-
-Please refer to the [CONTRIBUTING](CONTRIBUTING.md) guidelines for information on contributing to this project.
-
 ## Contact
 
-For any queries or issues, please contact [Harsh Bodgal](mailto:your-email@example.com).
+For any queries or issues, please contact [Harsh Bodgal](mailto:harshbodgal22@gmail.com).
 
 
 
