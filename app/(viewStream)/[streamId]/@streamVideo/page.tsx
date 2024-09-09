@@ -24,7 +24,7 @@ export default async function StreamVideo({ params }: {params: {
                     <FetchStream activeStream={data} />
                 </div>
                 <div className="mt-3">
-                    <FollowStream streamId={streamId} />
+                    <FollowStream activeStream={data} />
                 </div>
             </div>
           );

@@ -5,7 +5,14 @@ import { checkFollowStatus, toggleFollow } from "@/lib/streamActions";
 import { useEffect, useState } from "react";
 import { checkAuthenticationAction, getUserAction } from "@/lib/authActions";
 
-export default function FollowStream({ streamId }: { streamId: string }) {
+type stream = {
+    id: string;
+    user_id: string;
+    created_at: string;
+    is_streaming: boolean;
+    video_url: string;
+}
+export default function FollowStream({ activeStream }: { activeStream: stream }) {
     const [isFollowing, setIsFollowing] = useState<boolean>(false);
     const [userId, setUserId] = useState<string>('');
 
@@ -17,7 +24,7 @@ export default function FollowStream({ streamId }: { streamId: string }) {
             const user = await getUserAction();
             if (user) {
                 setUserId(user.user.id);
-                const status = await checkFollowStatus(user.user.id, streamId);
+                const status = await checkFollowStatus(user.user.id, activeStream.user_id);
                 setIsFollowing(status);
             }
         };
@@ -30,7 +37,7 @@ export default function FollowStream({ streamId }: { streamId: string }) {
     const handleClick = async () => {
         const user = await checkAuthenticationAction();
         if (user) {
-            const updatedFollowstatus = await toggleFollow(userId, streamId, isFollowing);
+            const updatedFollowstatus = await toggleFollow(userId, activeStream.user_id, isFollowing);
             setIsFollowing(updatedFollowstatus);
         }
     }
