@@ -9,13 +9,12 @@ export const revalidate = 0;
 export default async function StreamVideo({ params }: {params: {
     streamId: string;
 }}) {
-    
     const streamId = params.streamId;
     if(streamId) {
         const supabase = createClient();
         const { data, error } = await supabase
         .from("streams")
-            .select().match({ user_id: streamId }).single();
+            .select().match({ id: streamId }).single();
         if (error) {
             notFound();
         }

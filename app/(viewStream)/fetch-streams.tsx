@@ -33,10 +33,10 @@ export default function FetchStreams({ activeStreams }: {
         .on('postgres_changes', {
             event: '*',
             schema:'public',
-            table: 'streams',
-            filter: 'is_streaming=eq.true'
+            table: 'streams'
         },
             payload => {
+                console.log(payload);
                 handleStreamListUpdates();
         })
         .subscribe();
@@ -48,17 +48,16 @@ export default function FetchStreams({ activeStreams }: {
     return (
         <>
         {
-            liveStreams.map((stream: stream) => (
-              <Link 
-              key={stream.id+stream.created_at} 
-              href={`/${stream.user_id}`} 
-              passHref 
-              legacyBehavior
-              className="block p-4 border rounded-lg shadow hover:bg-gray-100">
-                <div className="cursor-pointer">
-                <VideoComponent />
-                </div>
-              </Link>
+                liveStreams.map((stream: stream) => (
+                <Link key={stream.id+stream.created_at} 
+                href={`/${stream.id}`} 
+                passHref 
+                legacyBehavior
+                className="block p-4 border rounded-lg shadow hover:bg-gray-100">
+                    <div className="cursor-pointer">
+                    <VideoComponent />
+                    </div>
+                </Link>
             ))}
         </>
     )

@@ -27,7 +27,7 @@ export default function FetchStream({ activeStream }: {
             event: 'INSERT',
             schema:'public',
             table: 'streams',
-            filter: `user_id=eq.${activeStream.user_id}`
+            filter: `id=eq.${activeStream.id}`
         },
             payload => {
                 setLiveSteam(payload.new as stream);
@@ -35,11 +35,12 @@ export default function FetchStream({ activeStream }: {
         .on('postgres_changes', {
             event: 'DELETE',
             schema:'public',
-            table: 'streams',
-            filter: `user_id=eq.${activeStream.user_id}`
+            table: 'streams'
         },
             payload => {
-                redirectUserToHomeAction();
+                if (payload.old.id === activeStream.id) {
+                    redirectUserToHomeAction();
+                }
             })
         .subscribe();
         return () => {
